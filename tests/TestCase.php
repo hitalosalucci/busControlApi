@@ -3,8 +3,10 @@
 namespace Tests;
 
 use App\Exceptions\TransactionException;
+use App\Models\Bus;
 use App\Models\City;
 use App\Models\State;
+use App\Transactions\Bus\AddBusTransaction;
 use App\Transactions\City\AddCityTransaction;
 use App\Transactions\State\AddStateTransaction;
 use Faker\Factory;
@@ -55,18 +57,19 @@ abstract class TestCase extends BaseTestCase
         return City::where('name', $name)->where('cep', $cep)->first();
     }
 
-    // protected function createUser(Empresa $empresa) : Usuario
-    // {
-    //     $nome = $this->faker->unique()->name;
-    //     $login = $this->faker->unique()->userName;
-    //     $senha = $this->faker->unique()->password;
-    //     $cpf = $this->faker->unique()->randomNumber(8);
+    protected function createBus() : Bus
+    {
+        $manufacturer = $this->faker->unique()->company;
+        $model = $this->faker->unique()->word;
+        $code = rand(1000, 999999999);
+        $description = $this->faker->text(350);
+        $color = $this->faker->colorName;
 
-    //     $transacao = new AddUsuarioTransaction($nome, $login, $senha, $empresa->id, $cpf);
-    //     $transacao->execute();
-
-    //     return Usuario::where('nome', $nome)->where('login', $login)->first();
-    // }
+        $transaction = new AddBusTransaction($manufacturer, $model, $code, $description, $color);
+        $transaction->execute();
+        
+        return Bus::where('code', $code)->where('manufacturer', $manufacturer)->first();
+    }
 
     // protected function createCustomer(Empresa $empresa, Endereco $enderecoCliente) : Cliente
     // {

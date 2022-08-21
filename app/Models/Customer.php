@@ -12,11 +12,6 @@ class Customer extends Model
     use HasFactory;
     use GeneratesUuid;
 
-    public function uuidColum()
-    {
-        return 'uuid';
-    }
-
     public function validatePassword(string $pass) : bool
     {
         return Hash::check($pass, $this->password);

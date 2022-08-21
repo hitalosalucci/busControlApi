@@ -2,17 +2,31 @@
 
 namespace Tests\Unit;
 
-use PHPUnit\Framework\TestCase;
+use App\Models\BusChair;
+use App\Transactions\BusChair\AddBusChairTransaction;
+use Tests\TestCase;
 
 class BusChairUnitTest extends TestCase
 {
-    /**
-     * A basic unit test example.
-     *
-     * @return void
-     */
-    public function test_example()
+    private $number = 36;
+    private $code = 'A36';
+    
+    public function testAddbusChair()
     {
-        $this->assertTrue(true);
+        
+        $bus = $this->createBus();
+
+        $transaction = new AddBusChairTransaction($this->number, $this->code, $bus->id);
+        $transaction->execute();
+
+        $busChair = BusChair::first();
+
+        $this->assertNotNull($busChair, 'Estado inválido');
+        $this->assertEquals($this->number, $busChair->number, 'Nome iconrreto');
+        $this->assertEquals($this->code, $busChair->code, 'Sigla incorreta');
+        $this->assertEquals($bus->id, $busChair->bus->id, 'Ônibus incorreto');
     }
 }
+
+
+

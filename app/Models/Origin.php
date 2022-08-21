@@ -10,11 +10,6 @@ class Origin extends Model
 {
     use HasFactory, GeneratesUuid;
 
-    public function uuidColum()
-    {
-        return 'uuid';
-    }
-
     public function city()
     {
         return $this->belongsTo(City::class, 'city_id', 'id');
