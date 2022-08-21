@@ -12,7 +12,7 @@ trait ValidateData
         $validador = new TransactionValidador();
         $erros = [];
 
-        $this->validar($validador, $erros);
+        $this->validate($validador, $erros);
 
         if (count($erros) > 0)
             throw new TransactionException($erros);
