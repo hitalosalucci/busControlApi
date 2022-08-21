@@ -20,7 +20,7 @@ class CreateCustomersTable extends Migration
             $table->string('name', 200);
             $table->string('email', 250);
             $table->string('password', 200);
-            $table->string('phone', 10);
+            $table->string('phone', 16);
             $table->timestamps();
 
             $table->foreign('city_id')->references('id')->on('cities')
