@@ -3,6 +3,10 @@
 namespace Tests;
 
 use App\Exceptions\TransactionException;
+use App\Models\City;
+use App\Models\State;
+use App\Transactions\City\AddCityTransaction;
+use App\Transactions\State\AddStateTransaction;
 use Faker\Factory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
@@ -21,33 +25,35 @@ abstract class TestCase extends BaseTestCase
         $this->faker = Factory::create();
     }
 
-    protected function assertErroTransaction(TransactionException $excecao, string $campo, string $erroEsperado)
+    protected function assertErrorTransaction(TransactionException $exception, string $field, string $expectedError)
     {
-        $erros = $excecao->getErrors();
-        $this->assertTrue(isset($erros[$campo]), 'Faltando campo "'.$campo.'" em exceção');
-        $this->assertEquals($erroEsperado, $erros[$campo], 'Erro do campo "'.$campo.'" incorreto');
+        $erros = $exception->getErrors();
+        $this->assertTrue(isset($erros[$field]), 'Faltando campo "'.$field.'" em exceção');
+        $this->assertEquals($expectedError, $erros[$field], 'Erro do campo "'.$field.'" incorreto');
     }
 
-    // protected function createState() : Estado
-    // {
-    //     $nome = $this->faker->unique()->state;
-    //     $sigla =$this->faker->unique()->stateAbbr;
+    protected function createState() : State
+    {
+        $name = $this->faker->unique()->state;
+        $acronym =$this->faker->unique()->stateAbbr;
 
-    //     $transacao = new AddEstadoTransaction($nome, $sigla);
-    //     $transacao->execute();
+        $transacao = new AddStateTransaction($name, $acronym);
+        $transacao->execute();
 
-    //     return Estado::where('nome', $nome)->first();
-    // }
+        return State::where('name', $name)->first();
+    }
 
-    // protected function createCity(Estado $estado) : Cidade
-    // {
-    //     $nome = $this->faker->unique()->city;
+    protected function createCity() : City
+    {
+        $name = $this->faker->unique()->city;
+        $cep = rand(10000000, 99999999);
+        $state = $this->createState();
 
-    //     $transacao = new AddCidadeTransaction($nome, $estado->id);
-    //     $transacao->execute();
+        $transacao = new AddCityTransaction($name, $cep, $state->id);
+        $transacao->execute();
         
-    //     return Cidade::where('nome', $nome)->first();
-    // }
+        return City::where('name', $name)->where('cep', $cep)->first();
+    }
 
     // protected function createUser(Empresa $empresa) : Usuario
     // {
