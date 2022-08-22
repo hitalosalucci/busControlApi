@@ -16,7 +16,6 @@ class UserUnitTest extends TestCase
 
     public function testAddUserAdmin()
     {
-        $city = $this->createCity();
 
         $transaction = new AddUserTransaction($this->name, $this->login, $this->email, $this->password, $this->level);
         $transaction->execute();
