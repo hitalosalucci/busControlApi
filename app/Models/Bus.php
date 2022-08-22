@@ -15,4 +15,9 @@ class Bus extends Model
     {
         return $this->hasMany(BusChair::class, 'id', 'bus_id');
     }
+
+    public function findPerUuid($uuid)
+    {
+        return $this->where('uuid', $uuid)->first();
+    }
 }

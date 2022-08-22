@@ -21,4 +21,9 @@ class Customer extends Model
     {
         return $this->hasOne(City::class, 'id', 'city_id');
     }
+
+    public function findPerUuid($uuid)
+    {
+        return $this->where('uuid', $uuid)->first();
+    }
 }

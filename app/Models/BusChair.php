@@ -14,4 +14,9 @@ class BusChair extends Model
     {
         return $this->hasOne(Bus::class, 'id', 'bus_id');
     }
+
+    public function findPerUuid($uuid)
+    {
+        return $this->where('uuid', $uuid)->first();
+    }
 }
