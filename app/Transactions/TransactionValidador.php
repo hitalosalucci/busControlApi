@@ -41,6 +41,15 @@ class TransactionValidador
         if ($modelo->where('id', $id)->count() == 0)
             $erros[$campo] = 'inexistente';
     }
+
+    public function busChairUsed($busChairId, Model $modelo, string $campo, array &$erros)
+    {
+        
+        $return = $modelo->checkBusChairUsed($busChairId);
+        
+        if ($return)
+            $erros[$campo] = 'Poltrona já utilizada';
+    }
 }
 
 ?>
