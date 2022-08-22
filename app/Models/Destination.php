@@ -14,4 +14,9 @@ class Destination extends Model
     {
         return $this->belongsTo(City::class, 'city_id', 'id');
     }
+
+    public function state()
+    {
+        return $this->city->state();
+    }
 }
