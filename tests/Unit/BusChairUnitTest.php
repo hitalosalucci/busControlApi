@@ -11,7 +11,7 @@ class BusChairUnitTest extends TestCase
     private $number = 36;
     private $code = 'A36';
     
-    public function testAddbusChair()
+    public function testAddBusChair()
     {
         
         $bus = $this->createBus();
