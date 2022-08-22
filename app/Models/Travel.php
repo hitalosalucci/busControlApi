@@ -27,4 +27,9 @@ class Travel extends Model
     {
         return $this->belongsTo(Destination::class, 'destination_id', 'id');
     }
+
+    public function findPerUuid($uuid)
+    {
+        return $this->where('uuid', $uuid)->first();
+    }
 }
