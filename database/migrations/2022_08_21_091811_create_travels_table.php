@@ -21,8 +21,14 @@ class CreateTravelsTable extends Migration
             $table->unsignedBigInteger('origin_id');
             $table->unsignedBigInteger('destination_id');
             $table->unsignedBigInteger('bus_id');
+            $table->unsignedBigInteger('driver_id');
             
             $table->foreign('bus_id')->references('id')->on('buses')
+                ->constrained()
+                ->onUpdate('no action')
+                ->onDelete('cascade');
+            
+            $table->foreign('driver_id')->references('id')->on('drivers')
                 ->constrained()
                 ->onUpdate('no action')
                 ->onDelete('cascade');
