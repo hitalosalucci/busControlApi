@@ -16,7 +16,7 @@ class CreateTravelSalesTable extends Migration
         Schema::create('travel_sales', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid')->index();
-            $table->unsignedBigInteger('price');
+            $table->double('price', 12, 2);
             $table->unsignedBigInteger('travel_id');
             $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedBigInteger('bus_id');
