@@ -23,7 +23,7 @@ class DriverUnitTest extends TestCase
 
         $driver = Driver::first();
 
-        $this->assertNotNull($driver, 'Cliente inválido');
+        $this->assertNotNull($driver, 'Motorista inválido');
         $this->assertNotNull($driver->uuid, 'UUID inválido');
         $this->assertEquals($this->name, $driver->name, 'Nome incorreto');
         $this->assertEquals($this->email, $driver->email, 'Email incorreto');
