@@ -26,4 +26,9 @@ class User extends Authenticatable
     {
         return Hash::check($pass, $this->password);
     }
+
+    public function findPerUuid($uuid)
+    {
+        return $this->where('uuid', $uuid)->first();
+    }
 }
