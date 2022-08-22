@@ -113,9 +113,9 @@ abstract class TestCase extends BaseTestCase
         $name = $this->faker->unique()->name;
         $email = $this->faker->unique()->companyEmail;
         $password = $this->faker->password;
-        $cnh = $this->faker->unique()->cpf(false);
-        $cpf = $this->faker->unique()->cpf(false);
-        $rg = $this->faker->unique()->rg(false);
+        $cnh = rand(10000000000, 99999999999);
+        $cpf = rand(10000000000, 99999999999);
+        $rg = rand(10000000, 99999999);
 
         $transaction = new AddDriverTransaction($name, $email, $password, $cnh, $cpf, $rg);
         $transaction->execute();
@@ -130,8 +130,9 @@ abstract class TestCase extends BaseTestCase
         $bus = $this->createBus();
         $origin = $this->createOrigin();
         $destination = $this->createDestination();
+        $driver = $this->createDriver();
 
-        $transaction = new AddTravelTransaction($name, $date, $origin->id, $destination->id, $bus->id);
+        $transaction = new AddTravelTransaction($name, $date, $origin->id, $destination->id, $bus->id, $driver->id);
         $transaction->execute();
 
         return Travel::where('name', $name)->where('date', $date)->where('origin_id', $origin->id)->first();
