@@ -25,8 +25,9 @@ class AddTravelSaleTransaction implements Transaction
     {
 
         $this->validateData();
-
+        
         $travelSale = new TravelSale();
+
         $travelSale->price = $this->price;
         $travelSale->travel_id = $this->travelId;
         $travelSale->bus_chair_id = $this->busChairId;
@@ -39,9 +40,10 @@ class AddTravelSaleTransaction implements Transaction
 
     protected function validate(TransactionValidador $validador, array &$errors)
     {
+        $validador->textoVazio($this->busChairId, 'bus_chair', $errors);
+        $validador->busChairUsed($this->busChairId, new TravelSale(), 'bus_chair', $errors);
         $validador->textoVazio($this->price, 'price', $errors);
-        $validador->textoVazio($this->travelId, 'travelId', $errors);
-        $validador->textoVazio($this->busChairId, 'busChairId', $errors);
-        $validador->textoVazio($this->customerId, 'customerId', $errors);
+        $validador->textoVazio($this->travelId, 'travel', $errors);
+        $validador->textoVazio($this->customerId, 'customer', $errors);
     }
 }

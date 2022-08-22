@@ -15,13 +15,14 @@ class AddTravelTransaction implements Transaction
 {
     use ValidateData;
 
-    public function __construct(string $name, string $date, int $originId, int $destinationId, int $busId)
+    public function __construct(string $name, string $date, int $originId, int $destinationId, int $busId, int $driverId)
     {
         $this->name = $name;
         $this->date = $date;
         $this->originId = $originId;
         $this->destinationId = $destinationId;
         $this->busId = $busId;
+        $this->driverId = $driverId;
     }
 
     public function execute()
@@ -35,6 +36,8 @@ class AddTravelTransaction implements Transaction
         $travel->origin_id = $this->originId;
         $travel->destination_id = $this->destinationId;
         $travel->bus_id = $this->busId;
+        $travel->driver_id = $this->driverId;
+
 
         $travel->save();
     }
@@ -43,8 +46,9 @@ class AddTravelTransaction implements Transaction
     {
         $validador->textoVazio($this->name, 'name', $errors);
         $validador->textoVazio($this->date, 'date', $errors);
-        $validador->textoVazio($this->originId, 'originId', $errors);
-        $validador->textoVazio($this->destinationId, 'destinationId', $errors);
-        $validador->textoVazio($this->busId, 'busId', $errors);
+        $validador->textoVazio($this->originId, 'origin', $errors);
+        $validador->textoVazio($this->destinationId, 'destination', $errors);
+        $validador->textoVazio($this->busId, 'bus', $errors);
+        $validador->textoVazio($this->driverId, 'driver', $errors);
     }
 }

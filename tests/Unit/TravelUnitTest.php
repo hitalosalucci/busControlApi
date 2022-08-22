@@ -17,8 +17,9 @@ class TravelUnitTest extends TestCase
         $bus = $this->createBus();
         $origin = $this->createOrigin();
         $destination = $this->createDestination();
+        $driver = $this->createDriver();
 
-        $transaction = new AddTravelTransaction($this->name, $date, $origin->id, $destination->id, $bus->id);
+        $transaction = new AddTravelTransaction($this->name, $date, $origin->id, $destination->id, $bus->id, $driver->id);
         $transaction->execute();
 
         $travel = Travel::first();

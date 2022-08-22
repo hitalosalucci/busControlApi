@@ -3,8 +3,7 @@
 namespace Tests\Unit;
 
 use App\Models\TravelSale;
-use App\Transactions\Travel\AddTravelSaleTransaction;
-use App\Transactions\TravelSale\AddTravelSaleTransaction as TravelSaleAddTravelSaleTransaction;
+use App\Transactions\TravelSale\AddTravelSaleTransaction;
 use Tests\TestCase;
 
 class TravelSaleUnitTest extends TestCase
@@ -18,7 +17,7 @@ class TravelSaleUnitTest extends TestCase
         $travel = $this->createTravel();
         $customer = $this->createCustomer();
 
-        $transaction = new TravelSaleAddTravelSaleTransaction($this->price, $travel->id, $busChair->id, $bus->id, $customer->id);
+        $transaction = new AddTravelSaleTransaction($this->price, $travel->id, $busChair->id, $bus->id, $customer->id);
         $transaction->execute();
 
         $travelSale = TravelSale::first();
@@ -30,6 +29,7 @@ class TravelSaleUnitTest extends TestCase
         $this->assertEquals($bus->id, $travelSale->bus->id, 'Ônibus incorreto');
         $this->assertEquals($travel->id, $travelSale->travel->id, 'Viagem incorreta');
         $this->assertEquals($customer->id, $travelSale->customer->id, 'Cliente incorreto');
+        $this->assertEquals($busChair->id, $travelSale->busChair->id, 'Poltrona do ônibus incorreto');
 
     }
 
@@ -41,7 +41,7 @@ class TravelSaleUnitTest extends TestCase
         $customer = $this->createCustomer();
         $user = $this->createUser();
 
-        $transaction = new TravelSaleAddTravelSaleTransaction($this->price, $travel->id, $busChair->id, $bus->id, $customer->id, $user->id);
+        $transaction = new AddTravelSaleTransaction($this->price, $travel->id, $busChair->id, $bus->id, $customer->id, $user->id);
         $transaction->execute();
         
         $travelSale = TravelSale::first();
@@ -54,7 +54,7 @@ class TravelSaleUnitTest extends TestCase
         $this->assertEquals($travel->id, $travelSale->travel->id, 'Viagem incorreta');
         $this->assertEquals($customer->id, $travelSale->customer->id, 'Cliente incorreto');
         $this->assertEquals($user->id, $travelSale->user->id, 'Usuário incorreto');
-
+        $this->assertEquals($busChair->id, $travelSale->busChair->id, 'Poltrona do ônibus incorreto');
     }
 
 }
