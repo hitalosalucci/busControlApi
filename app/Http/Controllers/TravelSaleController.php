@@ -25,6 +25,38 @@ class TravelSaleController extends Controller
                 'uuid' => $sale->uuid,
                 'price' => $sale->price,
                 'travel' => $sale->travel,
+                'origem' => $sale->travel->origin->city,
+                'destination' => $sale->travel->destination->city,
+                'bus' => $sale->bus,
+                'bus_chair' => $sale->busChair,
+                'customer' => $sale->customer
+            ];
+        }
+
+        $returnArray = [
+            'status' => 200,
+            'error' => false,
+            'data' => $travelSalesArray
+        ];
+
+        return $returnArray;
+    }
+
+    public function getTravelSalesPerBusUuid(Request $request)
+    {
+        $bus = Bus::where('uuid', $request->uuid)->first();
+        $travelSales = TravelSale::where('bus_id', $bus->id)->get();
+        
+
+        $travelSalesArray = [];
+        foreach ($travelSales as $sale)
+        {
+            $travelSalesArray[] = [
+                'uuid' => $sale->uuid,
+                'price' => $sale->price,
+                'travel' => $sale->travel,
+                'origem' => $sale->travel->origin->city,
+                'destination' => $sale->travel->destination->city,
                 'bus' => $sale->bus,
                 'bus_chair' => $sale->busChair,
                 'customer' => $sale->customer
@@ -52,6 +84,8 @@ class TravelSaleController extends Controller
                 'uuid' => $travelSale->uuid,
                 'price' => $travelSale->price,
                 'travel' => $travelSale->travel,
+                'origem' => $travelSale->travel->origin->city,
+                'destination' => $travelSale->travel->destination->city,
                 'bus' => $travelSale->bus,
                 'bus_chair' => $travelSale->busChair,
                 'customer' => $travelSale->customer
@@ -69,6 +103,7 @@ class TravelSaleController extends Controller
 
     public function addTravelSale(Request $request)
     {
+
         $price = $request->price;
 
         $fields_fail = [];
@@ -97,6 +132,7 @@ class TravelSaleController extends Controller
         is_null($user) ? $userId = null : $userId = $user->id; 
 
         $error = true;
+        $exception = false;
         if (empty($fields_fail)){
             
             try {
@@ -111,11 +147,38 @@ class TravelSaleController extends Controller
 
         }
         
-        return $returnArray = [
+        $returnArray = [
             'status' => 200,
             'error' => $error,
-            'exception' => $exception,
-            'fields_fail' => $fields_fail
+            'fields_fail' => $fields_fail,
+            'exception' => $exception
         ];
+
+        return $returnArray;
+    }
+
+    public function deleteTravelSale(Request $request)
+    {
+        $travelSale = TravelSale::where('uuid', $request->uuid)->first();
+        
+        $error = true;
+        $exception = false;
+
+        try {
+            $travelSale->delete();
+
+            $error = false;
+        } 
+        catch(Exception $e){
+            $exception = $e->getMessage();
+        }
+
+        $returnArray = [
+            'status' => 200,
+            'error' => $error,
+            'exception' => $exception
+        ];
+
+        return $returnArray;
     }
 }
